@@ -9,10 +9,6 @@ public class TaskManager {
     private Map<Integer, Subtask> subtasks = new HashMap<>();
     private int currentId = 1;
 
-    private int generateId() {
-        return currentId++;
-    }
-
     public Task addTask(Task task) {
         task.setId(generateId());
         tasks.put(task.getId(), task);
@@ -130,5 +126,9 @@ public class TaskManager {
                 ", epics=" + epics +
                 ", subtasks=" + subtasks +
                 '}';
+    }
+
+    private int generateId() {
+        return currentId++;
     }
 }

@@ -2,22 +2,22 @@ public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
 
-        Task task1 = new Task(taskManager.generateId(), "Задача 1", "Описание задачи 1", Task.Status.NEW);
-        Task task2 = new Task(taskManager.generateId(), "Задача 2", "Описание задачи 2", Task.Status.NEW);
+        Task task1 = new Task(0, "Задача 1", "Описание задачи 1", Task.Status.NEW);
+        Task task2 = new Task(0, "Задача 2", "Описание задачи 2", Task.Status.NEW);
         taskManager.addTask(task1);
         taskManager.addTask(task2);
 
         Task retrievedTask = taskManager.getTask(task1.getId());
         System.out.println(retrievedTask != null ? "Найденная задача: " + retrievedTask : "Задача с id " + task1.getId() + " не найдена.");
 
-        Epic epic1 = new Epic(taskManager.generateId(), "Эпик 1", "Описание эпика 1");
-        Epic epic2 = new Epic(taskManager.generateId(), "Эпик 2", "Описание эпика 2");
+        Epic epic1 = new Epic(0, "Эпик 1", "Описание эпика 1");
+        Epic epic2 = new Epic(0, "Эпик 2", "Описание эпика 2");
         taskManager.addEpic(epic1);
         taskManager.addEpic(epic2);
 
-        Subtask subtask1 = new Subtask(taskManager.generateId(), "Подзадача 1", "Описание подзадачи 1", Task.Status.NEW, epic1.getId());
-        Subtask subtask2 = new Subtask(taskManager.generateId(), "Подзадача 2", "Описание подзадачи 2", Task.Status.NEW, epic1.getId());
-        Subtask subtask3 = new Subtask(taskManager.generateId(), "Подзадача 3", "Описание подзадачи 3", Task.Status.NEW, epic2.getId());
+        Subtask subtask1 = new Subtask(0, "Подзадача 1", "Описание подзадачи 1", Task.Status.NEW, epic1.getId());
+        Subtask subtask2 = new Subtask(0, "Подзадача 2", "Описание подзадачи 2", Task.Status.NEW, epic1.getId());
+        Subtask subtask3 = new Subtask(0, "Подзадача 3", "Описание подзадачи 3", Task.Status.NEW, epic2.getId());
         taskManager.addSubtask(subtask1);
         taskManager.addSubtask(subtask2);
         taskManager.addSubtask(subtask3);

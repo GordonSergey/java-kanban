@@ -26,11 +26,21 @@ public class Epic extends Task {
         boolean allNew = true;
 
         for (Subtask subtask : subtasks) {
-            allDone = (subtask.getStatus() == Status.DONE) && allDone;
-            allNew = (subtask.getStatus() == Status.NEW) && allNew;
+            if (subtask.getStatus() != Status.DONE) {
+                allDone = false;
+            }
+            if (subtask.getStatus() != Status.NEW) {
+                allNew = false;
+            }
         }
 
-        setStatus(allDone ? Status.DONE : allNew ? Status.NEW : Status.IN_PROGRESS);
+        if (allDone) {
+            setStatus(Status.DONE);
+        } else if (allNew) {
+            setStatus(Status.NEW);
+        } else {
+            setStatus(Status.IN_PROGRESS);
+        }
     }
 
     @Override

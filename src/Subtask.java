@@ -4,6 +4,10 @@ public class Subtask extends Task {
     public Subtask(int id, String name, String description, Status status, int epicId) {
         super(id, name, description, status);
         this.epicId = epicId;
+
+        if (id == epicId) {
+            throw new IllegalStateException("Подзадача не может быть добавлена в качестве своего собственного эпика.");
+        }
     }
 
     public int getEpicId() {
@@ -12,6 +16,10 @@ public class Subtask extends Task {
 
     public void setEpicId(int epicId) {
         this.epicId = epicId;
+
+        if (getId() == epicId) {
+            throw new IllegalStateException("Подзадача не может быть добавлена в качестве своего собственного эпика.");
+        }
     }
 
     @Override

@@ -12,23 +12,23 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void testNoConflictBetweenGivenAndGeneratedIds() {
-        Task taskWithGivenId = new Task(1, "Task 1", "Description 1", Task.Status.NEW);
-        Task taskWithGeneratedId = new Task(0, "Task 2", "Description 2", Task.Status.NEW);
+        Task taskWithGivenId = new Task(1, "Задача 1", "Описание 1", Task.Status.NEW);
+        Task taskWithGeneratedId = new Task(0, "Задача 2", "Описание 2", Task.Status.NEW);
 
         Task addedTaskWithGivenId = taskManager.addTask(taskWithGivenId);
         Task addedTaskWithGeneratedId = taskManager.addTask(taskWithGeneratedId);
 
-        assertNotEquals(addedTaskWithGivenId.getId(), addedTaskWithGeneratedId.getId(), "Generated ID should not conflict with given ID");
+        assertNotEquals(addedTaskWithGivenId.getId(), addedTaskWithGeneratedId.getId(), "Сгенерированный ID не должен конфликтовать с заданным ID");
     }
 
     @Test
     public void testSubtaskCannotBeItsOwnEpic() {
-        Subtask subtask = new Subtask(1, "Subtask 1", "Subtask Description", Task.Status.NEW, 2);
+        Subtask subtask = new Subtask(1, "Подзадача 1", "Описание подзадачи", Task.Status.NEW, 2);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             subtask.setEpicId(1);
-        }, "Subtask cannot be its own epic.");
+        }, "Подзадача не может быть своим же эпиком.");
 
-        assertEquals("Subtask cannot be its own epic.", exception.getMessage());
+        assertEquals("Подзадача не может быть своим же эпиком.", exception.getMessage());
     }
 }

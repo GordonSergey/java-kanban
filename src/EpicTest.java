@@ -5,13 +5,13 @@ public class EpicTest {
 
     @Test
     public void testAddEpicAsSubtaskToItself() {
-        Epic epic = new Epic(1, "Epic 1", "Epic Description");
-        Subtask subtask = new Subtask(1, "Subtask", "Subtask Description", Task.Status.NEW, 1);
+        Epic epic = new Epic(1, "Эпик 1", "Описание эпика");
+        Subtask subtask = new Subtask(1, "Подзадача", "Описание подзадачи", Task.Status.NEW, 1);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             epic.addSubtask(subtask);
-        }, "Epic cannot be added as a subtask to itself.");
+        }, "Эпик не может быть добавлен как подзадача к самому себе.");
 
-        assertEquals("Epic cannot be added as a subtask to itself.", exception.getMessage());
+        assertEquals("Эпик не может быть добавлен как подзадача к самому себе.", exception.getMessage());
     }
 }

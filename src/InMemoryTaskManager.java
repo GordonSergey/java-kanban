@@ -4,7 +4,7 @@ public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
-    private HistoryManager historyManager = Managers.getDefaultHistory();
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
     private int currentId = 1;
 
     @Override
@@ -22,13 +22,14 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
     public Task getTask(int id) {
         Task task = tasks.get(id);
         if (task != null) {
-            historyManager.add(task);
+            historyManager.add(task); // Добавляем задачу в историю
         }
         return task;
     }
@@ -40,6 +41,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllTasks() {
+        List<Integer> taskIds = new ArrayList<>(tasks.keySet());
+        for (Integer taskId : taskIds) {
+            historyManager.remove(taskId);
+        }
         tasks.clear();
     }
 
@@ -61,15 +66,17 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic != null) {
             for (Subtask subtask : epic.getSubtasks()) {
                 subtasks.remove(subtask.getId());
+                historyManager.remove(subtask.getId()); // Удаляем подзадачи из истории
             }
         }
+        historyManager.remove(id); // Удаляем эпик из истории
     }
 
     @Override
     public Epic getEpic(int id) {
         Epic epic = epics.get(id);
         if (epic != null) {
-            historyManager.add(epic);
+            historyManager.add(epic); // Добавляем эпик в историю
         }
         return epic;
     }
@@ -81,19 +88,28 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllEpics() {
+        for (Integer id : epics.keySet()) {
+            Epic epic = epics.get(id);
+            if (epic != null) {
+                for (Subtask subtask : epic.getSubtasks()) {
+                    subtasks.remove(subtask.getId());
+                    historyManager.remove(subtask.getId());
+                }
+            }
+            historyManager.remove(id);
+        }
         epics.clear();
         subtasks.clear();
     }
 
     @Override
     public Subtask addSubtask(Subtask subtask) {
-        subtask.setId(generateId());
         subtasks.put(subtask.getId(), subtask);
         Epic epic = epics.get(subtask.getEpicId());
         if (epic != null) {
             epic.addSubtask(subtask);
-            epic.updateStatus();
         }
+        historyManager.add(subtask);
         return subtask;
     }
 
@@ -110,10 +126,10 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeSubtask(int id) {
         Subtask subtask = subtasks.remove(id);
         if (subtask != null) {
+            historyManager.remove(id);
             Epic epic = epics.get(subtask.getEpicId());
             if (epic != null) {
                 epic.removeSubtask(subtask);
-                epic.updateStatus();
             }
         }
     }
@@ -122,7 +138,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask getSubtask(int id) {
         Subtask subtask = subtasks.get(id);
         if (subtask != null) {
-            historyManager.add(subtask);
+            historyManager.add(subtask); // Добавляем подзадачу в историю
         }
         return subtask;
     }
@@ -145,6 +161,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllSubtasks() {
+        for (Subtask subtask : getAllSubtasks()) {
+            historyManager.remove(subtask.getId());
+        }
         subtasks.clear();
         for (Epic epic : epics.values()) {
             epic.getSubtasks().clear();
@@ -159,5 +178,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int generateId() {
         return currentId++;
+    }
+
+    public void removeTask(int id) {
+        deleteTask(id);
     }
 }

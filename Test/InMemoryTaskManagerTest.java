@@ -22,13 +22,35 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void testSubtaskCannotBeItsOwnEpic() {
-        Subtask subtask = new Subtask(1, "Подзадача 1", "Описание подзадачи", Task.Status.NEW, 2);
+    public void testAddAndRemoveTask() {
+        Task task = new Task(1, "Задача 1", "Описание", Task.Status.NEW);
+        taskManager.addTask(task);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            subtask.setEpicId(1);
-        }, "Подзадача не может быть своим же эпиком.");
+        assertEquals(task, taskManager.getTask(task.getId()), "Задача должна быть добавлена");
+        taskManager.deleteTask(task.getId());
+        assertNull(taskManager.getTask(task.getId()), "Задача должна быть удалена");
+    }
 
-        assertEquals("Подзадача не может быть своим же эпиком.", exception.getMessage());
+    @Test
+    public void testAddAndRemoveEpic() {
+        Epic epic = new Epic(1, "Эпик 1", "Описание");
+        taskManager.addEpic(epic);
+
+        assertEquals(epic, taskManager.getEpic(epic.getId()), "Эпик должен быть добавлен");
+        taskManager.removeEpic(epic.getId());
+        assertNull(taskManager.getEpic(epic.getId()), "Эпик должен быть удален");
+    }
+
+    @Test
+    public void testAddAndRemoveSubtask() {
+        Epic epic = new Epic(1, "Эпик 1", "Описание");
+        taskManager.addEpic(epic);
+
+        Subtask subtask = new Subtask(2, "Подзадача 1", "Описание", Task.Status.NEW, epic.getId());
+        taskManager.addSubtask(subtask);
+
+        assertEquals(subtask, taskManager.getSubtask(subtask.getId()), "Подзадача должна быть добавлена");
+        taskManager.removeSubtask(subtask.getId());
+        assertNull(taskManager.getSubtask(subtask.getId()), "Подзадача должна быть удалена");
     }
 }

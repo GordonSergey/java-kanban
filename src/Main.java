@@ -40,7 +40,6 @@ public class Main {
         System.out.println("Эпики:");
         for (Epic epic : manager.getAllEpics()) {
             System.out.println(epic);
-
             for (Subtask subtask : manager.getSubtasksByEpic(epic.getId())) {
                 System.out.println("--> " + subtask);
             }

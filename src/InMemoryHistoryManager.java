@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
+
     private Node<Task> head;
     private Node<Task> tail;
     private final Map<Integer, Node<Task>> nodeMap = new HashMap<>();
@@ -58,6 +59,40 @@ public class InMemoryHistoryManager implements HistoryManager {
             tail = prev;
         } else {
             next.setPrev(prev);
+        }
+    }
+
+    private static class Node<T> {
+        private T data;
+        private Node<T> next;
+        private Node<T> prev;
+
+        public Node(T data) {
+            this.data = data;
+        }
+
+        public T getData() {
+            return data;
+        }
+
+        public void setData(T data) {
+            this.data = data;
+        }
+
+        public Node<T> getNext() {
+            return next;
+        }
+
+        public void setNext(Node<T> next) {
+            this.next = next;
+        }
+
+        public Node<T> getPrev() {
+            return prev;
+        }
+
+        public void setPrev(Node<T> prev) {
+            this.prev = prev;
         }
     }
 }

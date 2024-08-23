@@ -70,18 +70,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     protected void save() {
         try (Writer writer = new FileWriter(file, StandardCharsets.UTF_8)) {
-            // Сохранение задач
+
             for (Task task : getAllTasks()) {
                 writer.write(task.toString() + "\n");
             }
-            // Сохранение эпиков и подзадач
+
             for (Epic epic : getAllEpics()) {
                 writer.write(epic.toString() + "\n");
                 for (Subtask subtask : getSubtasksByEpic(epic.getId())) {
                     writer.write(subtask.toString() + "\n");
                 }
             }
-            // Сохранение истории
+
             writer.write("\n" + historyToString(getHistory()) + "\n");
         } catch (IOException e) {
             System.err.println("Ошибка при сохранении данных в файл: " + file.getName());
@@ -102,7 +102,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     super.addTask(task);
                 }
             }
-            // Восстановление истории
+
             if (reader.ready()) {
                 String historyLine = reader.readLine();
                 if (historyLine != null) {
@@ -155,6 +155,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public static void main(String[] args) {
         FileBackedTaskManager manager = loadFromFile(new File("tasks.csv"));
-        // Дальнейшее взаимодействие с менеджером задач
+
     }
 }

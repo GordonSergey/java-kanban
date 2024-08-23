@@ -16,13 +16,20 @@ public class Epic extends Task {
 
     public void addSubtask(Subtask subtask) {
         subtasks.add(subtask);
+        updateStatus();
     }
 
     public void removeSubtask(Subtask subtask) {
         subtasks.remove(subtask);
+        updateStatus();
     }
 
     public void updateStatus() {
+        if (subtasks.isEmpty()) {
+            setStatus(Status.NEW);
+            return;
+        }
+
         boolean allDone = true;
         boolean allNew = true;
 
@@ -44,6 +51,19 @@ public class Epic extends Task {
         }
     }
 
+    public static Epic fromString(String value) {
+        String[] parts = value.split(",");
+        int id = Integer.parseInt(parts[0]);
+        String name = parts[1];
+        String description = parts[2];
+        return new Epic(id, name, description);
+    }
+
+    @Override
+    public String toString() {
+        return getId() + "," + getName() + "," + getDescription() + "," + getStatus();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,16 +76,5 @@ public class Epic extends Task {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), subtasks);
-    }
-
-    @Override
-    public String toString() {
-        return "Epic{" +
-                "id=" + getId() +
-                ", name='" + getName() + '\'' +
-                ", description='" + getDescription() + '\'' +
-                ", status=" + getStatus() +
-                ", subtasks=" + subtasks +
-                '}';
     }
 }

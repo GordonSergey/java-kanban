@@ -45,6 +45,20 @@ public class Task {
         this.status = status;
     }
 
+    public static Task fromString(String value) {
+        String[] parts = value.split(",");
+        int id = Integer.parseInt(parts[0]);
+        String name = parts[1];
+        String description = parts[2];
+        Status status = Status.valueOf(parts[3]);
+        return new Task(id, name, description, status);
+    }
+
+    @Override
+    public String toString() {
+        return id + "," + name + "," + description + "," + status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -56,16 +70,6 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
     }
 
     public enum Status {

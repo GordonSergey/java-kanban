@@ -8,7 +8,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public FileBackedTaskManager(File file) {
         this.file = file;
-        loadFromFile();
+        loadTasksFromFile();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private void loadFromFile() {
+    private void loadTasksFromFile() {
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null && !line.isEmpty()) {

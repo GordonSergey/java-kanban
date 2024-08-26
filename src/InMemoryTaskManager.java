@@ -29,7 +29,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTask(int id) {
         Task task = tasks.get(id);
         if (task != null) {
-            historyManager.add(task); // Добавляем задачу в историю
+            historyManager.add(task);
         }
         return task;
     }
@@ -66,17 +66,17 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic != null) {
             for (Subtask subtask : epic.getSubtasks()) {
                 subtasks.remove(subtask.getId());
-                historyManager.remove(subtask.getId()); // Удаляем подзадачи из истории
+                historyManager.remove(subtask.getId());
             }
         }
-        historyManager.remove(id); // Удаляем эпик из истории
+        historyManager.remove(id);
     }
 
     @Override
     public Epic getEpic(int id) {
         Epic epic = epics.get(id);
         if (epic != null) {
-            historyManager.add(epic); // Добавляем эпик в историю
+            historyManager.add(epic);
         }
         return epic;
     }
@@ -138,7 +138,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask getSubtask(int id) {
         Subtask subtask = subtasks.get(id);
         if (subtask != null) {
-            historyManager.add(subtask); // Добавляем подзадачу в историю
+            historyManager.add(subtask);
         }
         return subtask;
     }

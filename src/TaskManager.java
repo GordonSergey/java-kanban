@@ -11,6 +11,8 @@ public interface TaskManager {
 
     List<Task> getAllTasks();
 
+    List<Task> getPrioritizedTasks();
+
     void removeAllTasks();
 
     Epic addEpic(Epic epic);

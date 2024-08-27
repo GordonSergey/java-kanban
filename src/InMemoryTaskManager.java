@@ -8,7 +8,6 @@ public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private int currentId = 1;
 
-    // TreeSet для хранения задач по приоритету
     private final NavigableSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())));
 
     @Override
@@ -16,7 +15,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (!isTaskTimeOverlap(task)) {
             task.setId(generateId());
             tasks.put(task.getId(), task);
-            prioritizedTasks.add(task); // Добавляем задачу в TreeSet
+            prioritizedTasks.add(task);
             return task;
         } else {
             throw new IllegalArgumentException("Задачи пересекаются по времени.");
@@ -26,12 +25,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task task) {
         if (tasks.containsKey(task.getId())) {
-            prioritizedTasks.remove(tasks.get(task.getId())); // Удаляем старую задачу из TreeSet
+            prioritizedTasks.remove(tasks.get(task.getId()));
             if (!isTaskTimeOverlap(task)) {
                 tasks.put(task.getId(), task);
-                prioritizedTasks.add(task); // Добавляем обновленную задачу в TreeSet
+                prioritizedTasks.add(task);
             } else {
-                prioritizedTasks.add(tasks.get(task.getId())); // Возвращаем старую задачу в TreeSet
+                prioritizedTasks.add(tasks.get(task.getId()));
                 throw new IllegalArgumentException("Задачи пересекаются по времени.");
             }
         }
@@ -41,7 +40,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTask(int id) {
         Task task = tasks.remove(id);
         if (task != null) {
-            prioritizedTasks.remove(task); // Удаляем задачу из TreeSet
+            prioritizedTasks.remove(task);
             historyManager.remove(id);
         }
     }
@@ -60,7 +59,6 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(tasks.values());
     }
 
-    // Возвращает задачи по приоритету
     @Override
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
@@ -73,7 +71,7 @@ public class InMemoryTaskManager implements TaskManager {
             historyManager.remove(taskId);
         }
         tasks.clear();
-        prioritizedTasks.clear(); // Очищаем TreeSet
+        prioritizedTasks.clear();
     }
 
     @Override
@@ -97,7 +95,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic != null) {
             for (Subtask subtask : new ArrayList<>(epic.getSubtasks())) {
                 subtasks.remove(subtask.getId());
-                prioritizedTasks.remove(subtask); // Удаляем подзадачу из TreeSet
+                prioritizedTasks.remove(subtask);
                 historyManager.remove(subtask.getId());
             }
             historyManager.remove(id);
@@ -135,7 +133,7 @@ public class InMemoryTaskManager implements TaskManager {
                 epic.addSubtask(subtask);
                 epic.updateStatus();
             }
-            prioritizedTasks.add(subtask); // Добавляем подзадачу в TreeSet
+            prioritizedTasks.add(subtask);
             historyManager.add(subtask);
             return subtask;
         } else {
@@ -146,16 +144,16 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubtask(Subtask subtask) {
         if (subtasks.containsKey(subtask.getId())) {
-            prioritizedTasks.remove(subtasks.get(subtask.getId())); // Удаляем старую подзадачу из TreeSet
+            prioritizedTasks.remove(subtasks.get(subtask.getId()));
             if (!isTaskTimeOverlap(subtask)) {
                 subtasks.put(subtask.getId(), subtask);
-                prioritizedTasks.add(subtask); // Добавляем обновленную подзадачу в TreeSet
+                prioritizedTasks.add(subtask);
                 Epic epic = epics.get(subtask.getEpicId());
                 if (epic != null) {
                     epic.updateStatus();
                 }
             } else {
-                prioritizedTasks.add(subtasks.get(subtask.getId())); // Возвращаем старую подзадачу в TreeSet
+                prioritizedTasks.add(subtasks.get(subtask.getId()));
                 throw new IllegalArgumentException("Подзадачи пересекаются по времени.");
             }
         }
@@ -165,7 +163,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeSubtask(int id) {
         Subtask subtask = subtasks.remove(id);
         if (subtask != null) {
-            prioritizedTasks.remove(subtask); // Удаляем подзадачу из TreeSet
+            prioritizedTasks.remove(subtask);
             historyManager.remove(id);
             Epic epic = epics.get(subtask.getEpicId());
             if (epic != null) {
@@ -216,7 +214,6 @@ public class InMemoryTaskManager implements TaskManager {
         return currentId++;
     }
 
-    // Метод для проверки пересечения задач
     private boolean isTaskTimeOverlap(Task newTask) {
         for (Task task : prioritizedTasks) {
             if (task.getStartTime() != null && task.getEndTime() != null &&
@@ -230,7 +227,6 @@ public class InMemoryTaskManager implements TaskManager {
         return false;
     }
 
-    // Метод для проверки пересечения двух временных интервалов
     private boolean isOverlap(LocalDateTime start1, LocalDateTime end1,
                               LocalDateTime start2, LocalDateTime end2) {
         return (start1.isBefore(end2) && end1.isAfter(start2));

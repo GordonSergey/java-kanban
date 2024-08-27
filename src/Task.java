@@ -10,7 +10,6 @@ public class Task {
     private Duration duration;
     private LocalDateTime startTime;
 
-    // Конструктор с полями
     public Task(int id, String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.id = id;
         this.name = name;
@@ -20,12 +19,10 @@ public class Task {
         this.startTime = startTime;
     }
 
-    // Конструктор без duration и startTime
     public Task(int id, String name, String description, Status status) {
         this(id, name, description, status, null, null);
     }
 
-    // Геттеры и сеттеры
     public int getId() {
         return id;
     }
@@ -121,8 +118,8 @@ public class Task {
     }
 
     public enum Status {
-        NEW, // Новый
-        IN_PROGRESS, // В процессе
-        DONE // Выполнено
+        NEW,
+        IN_PROGRESS,
+        DONE
     }
 }

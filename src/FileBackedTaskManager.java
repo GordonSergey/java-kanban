@@ -1,7 +1,5 @@
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,12 +70,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     void save() {
         try (Writer writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
-            // Save tasks
+
             for (Task task : getAllTasks()) {
                 writer.write(task.toString() + "\n");
             }
 
-            // Save epics and their subtasks
+
             for (Epic epic : getAllEpics()) {
                 writer.write(epic.toString() + "\n");
                 for (Subtask subtask : getSubtasksByEpic(epic.getId())) {
@@ -85,7 +83,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
 
-            // Save history
+
             writer.write("\n" + historyToString(getHistory()) + "\n");
         } catch (IOException e) {
             System.err.println("Ошибка при сохранении данных в файл: " + file.getName());
@@ -115,7 +113,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 }
             }
 
-            // Load history
+
             if (reader.ready()) {
                 String historyLine = reader.readLine();
                 if (historyLine != null) {

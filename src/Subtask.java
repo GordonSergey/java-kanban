@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Subtask extends Task {
     private int epicId;
 
-    // Основной конструктор, который полностью инициализирует все поля
     public Subtask(int id, String name, String description, Status status, int epicId, Duration duration, LocalDateTime startTime) {
         super(id, name, description, status, duration, startTime);
         if (id == epicId) {
@@ -14,12 +13,10 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    // Конструктор без параметров duration и startTime
     public Subtask(int id, String name, String description, Status status, int epicId) {
-        this(id, name, description, status, epicId, null, null);  // Вызываем основной конструктор
+        this(id, name, description, status, epicId, null, null);
     }
 
-    // Getter и Setter
     public int getEpicId() {
         return epicId;
     }
@@ -28,7 +25,6 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    // Метод для создания Subtask из строки
     public static Subtask fromString(String value) {
         String[] parts = value.split(",");
         int id = Integer.parseInt(parts[0]);

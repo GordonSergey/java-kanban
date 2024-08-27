@@ -1,16 +1,20 @@
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Subtask extends Task {
     private int epicId;
 
-    public Subtask(int id, String name, String description, Status status, int epicId) {
-        super(id, name, description, status);
-
+    public Subtask(int id, String name, String description, Status status, int epicId, Duration duration, LocalDateTime startTime) {
+        super(id, name, description, status, duration, startTime);
         if (id == epicId) {
             throw new IllegalStateException("Подзадача не может быть добавлена в качестве своего собственного эпика.");
         }
-
         this.epicId = epicId;
+    }
+
+    public Subtask(int id, String name, String description, Status status, int epicId) {
+        this(id, name, description, status, epicId, null, null);
     }
 
     public int getEpicId() {
@@ -28,12 +32,16 @@ public class Subtask extends Task {
         String description = parts[2];
         Status status = Status.valueOf(parts[3]);
         int epicId = Integer.parseInt(parts[4]);
-        return new Subtask(id, name, description, status, epicId);
+        Duration duration = Duration.ofMinutes(Long.parseLong(parts[5]));
+        LocalDateTime startTime = LocalDateTime.parse(parts[6]);
+        return new Subtask(id, name, description, status, epicId, duration, startTime);
     }
 
     @Override
     public String toString() {
-        return getId() + "," + getName() + "," + getDescription() + "," + getStatus() + "," + epicId;
+        return getId() + "," + getName() + "," + getDescription() + "," + getStatus() + "," + epicId + "," +
+                (getDuration() != null ? getDuration().toMinutes() : "null") + "," +
+                (getStartTime() != null ? getStartTime() : "null");
     }
 
     @Override

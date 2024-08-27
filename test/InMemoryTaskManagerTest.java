@@ -53,4 +53,5 @@ public class InMemoryTaskManagerTest {
         taskManager.removeSubtask(subtask.getId());
         assertNull(taskManager.getSubtask(subtask.getId()), "Подзадача должна быть удалена");
     }
+
 }

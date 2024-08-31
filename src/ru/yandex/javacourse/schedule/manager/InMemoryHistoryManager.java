@@ -1,3 +1,5 @@
+package ru.yandex.javacourse.schedule.manager;
+
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {

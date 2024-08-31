@@ -1,3 +1,5 @@
+import ru.yandex.javacourse.schedule.manager.*;
+
 public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();

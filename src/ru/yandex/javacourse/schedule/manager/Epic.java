@@ -1,3 +1,5 @@
+package ru.yandex.javacourse.schedule.manager;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ public class Epic extends Task {
     private List<Subtask> subtasks;
 
     public Epic(int id, String name, String description) {
-        super(id, name, description, Status.NEW, Duration.ZERO, null);
+        super(id, name, description, Task.Status.NEW, Duration.ZERO, null);
         this.subtasks = new ArrayList<>();
     }
 
@@ -62,7 +64,7 @@ public class Epic extends Task {
 
     public void updateStatus() {
         if (subtasks.isEmpty()) {
-            setStatus(Status.NEW);
+            setStatus(Task.Status.NEW);
             return;
         }
 
@@ -70,20 +72,20 @@ public class Epic extends Task {
         boolean allNew = true;
 
         for (Subtask subtask : subtasks) {
-            if (subtask.getStatus() != Status.DONE) {
+            if (subtask.getStatus() != Task.Status.DONE) {
                 allDone = false;
             }
-            if (subtask.getStatus() != Status.NEW) {
+            if (subtask.getStatus() != Task.Status.NEW) {
                 allNew = false;
             }
         }
 
         if (allDone) {
-            setStatus(Status.DONE);
+            setStatus(Task.Status.DONE);
         } else if (allNew) {
-            setStatus(Status.NEW);
+            setStatus(Task.Status.NEW);
         } else {
-            setStatus(Status.IN_PROGRESS);
+            setStatus(Task.Status.IN_PROGRESS);
         }
     }
 

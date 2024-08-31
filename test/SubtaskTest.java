@@ -1,3 +1,5 @@
+import ru.yandex.javacourse.schedule.manager.Subtask;
+import ru.yandex.javacourse.schedule.manager.Task;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

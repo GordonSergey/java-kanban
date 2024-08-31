@@ -1,3 +1,8 @@
+import ru.yandex.javacourse.schedule.manager.Epic;
+import ru.yandex.javacourse.schedule.manager.InMemoryTaskManager;
+import ru.yandex.javacourse.schedule.manager.Subtask;
+import ru.yandex.javacourse.schedule.manager.Task;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -75,14 +80,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 writer.write(task.toString() + "\n");
             }
 
-
             for (Epic epic : getAllEpics()) {
                 writer.write(epic.toString() + "\n");
                 for (Subtask subtask : getSubtasksByEpic(epic.getId())) {
                     writer.write(subtask.toString() + "\n");
                 }
             }
-
 
             writer.write("\n" + historyToString(getHistory()) + "\n");
         } catch (IOException e) {
@@ -95,10 +98,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null && !line.isEmpty()) {
-                if (line.contains("Epic")) {
+                if (line.contains("ru.yandex.javacourse.schedule.manager.Epic")) {
                     Epic epic = Epic.fromString(line);
                     super.addEpic(epic);
-                } else if (line.contains("Subtask")) {
+                } else if (line.contains("ru.yandex.javacourse.schedule.manager.Subtask")) {
                     Subtask subtask = Subtask.fromString(line);
                     super.addSubtask(subtask);
                 } else {
@@ -112,7 +115,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     }
                 }
             }
-
 
             if (reader.ready()) {
                 String historyLine = reader.readLine();

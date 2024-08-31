@@ -1,3 +1,6 @@
+import ru.yandex.javacourse.schedule.manager.HistoryManager;
+import ru.yandex.javacourse.schedule.manager.InMemoryHistoryManager;
+import ru.yandex.javacourse.schedule.manager.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +16,7 @@ public class HistoryManagerTest {
 
     @BeforeEach
     public void setUp() {
-        historyManager = new InMemoryHistoryManager();  // Предполагаем, что есть такая реализация.
+        historyManager = new InMemoryHistoryManager();
         task1 = new Task(1, "Задача 1", "Описание 1", Task.Status.NEW);
         task2 = new Task(2, "Задача 2", "Описание 2", Task.Status.NEW);
         task3 = new Task(3, "Задача 3", "Описание 3", Task.Status.NEW);
@@ -29,7 +32,7 @@ public class HistoryManagerTest {
     public void shouldAddTasksToHistoryWithoutDuplicates() {
         historyManager.add(task1);
         historyManager.add(task2);
-        historyManager.add(task1); // Повторное добавление task1
+        historyManager.add(task1);
 
         List<Task> history = historyManager.getHistory();
 

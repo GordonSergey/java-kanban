@@ -1,9 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.yandex.javacourse.schedule.manager.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +17,7 @@ public class TaskManagerTest {
 
     @BeforeEach
     public void setUp() {
-        taskManager = new InMemoryTaskManager(); // Используйте конкретную реализацию TaskManager
+        taskManager = new InMemoryTaskManager();
         task1 = new Task(1, "Задача 1", "Описание 1", Task.Status.NEW, Duration.ofHours(2), LocalDateTime.of(2024, 8, 1, 10, 0));
         task2 = new Task(2, "Задача 2", "Описание 2", Task.Status.NEW, Duration.ofHours(2), LocalDateTime.of(2024, 8, 1, 11, 0));
         epic = new Epic(3, "Эпик 1", "Описание эпика");

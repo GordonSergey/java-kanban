@@ -1,3 +1,6 @@
+import ru.yandex.javacourse.schedule.manager.Epic;
+import ru.yandex.javacourse.schedule.manager.Subtask;
+import ru.yandex.javacourse.schedule.manager.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +20,7 @@ public class FileBackedTaskManagerTest {
 
     @BeforeEach
     public void setUp() throws IOException {
-        // Создание временного файла
+
         tempFile = File.createTempFile("tasks", ".csv");
         tempFile.deleteOnExit();
         manager = new FileBackedTaskManager(tempFile);
@@ -25,7 +28,7 @@ public class FileBackedTaskManagerTest {
 
     @AfterEach
     public void tearDown() {
-        // Удаление временного файла
+
         if (tempFile.exists()) {
             tempFile.delete();
         }
@@ -36,7 +39,6 @@ public class FileBackedTaskManagerTest {
         manager.save();
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
 
-        // Проверка, что загруженный менеджер пустой
         assertTrue(loadedManager.getAllTasks().isEmpty(), "Менеджер должен быть пустым");
         assertTrue(loadedManager.getHistory().isEmpty(), "История должна быть пустой");
     }
@@ -124,8 +126,8 @@ public class FileBackedTaskManagerTest {
         Task task2 = new Task(2, "Задача 2", "Описание 2", Task.Status.IN_PROGRESS);
         manager.addTask(task1);
         manager.addTask(task2);
-        manager.getTask(task1.getId());  // Добавляем в историю
-        manager.getTask(task2.getId());  // Добавляем в историю
+        manager.getTask(task1.getId());
+        manager.getTask(task2.getId());
         manager.save();
 
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);

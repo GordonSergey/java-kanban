@@ -1,3 +1,5 @@
+package ru.yandex.javacourse.schedule.manager;
+
 import java.util.List;
 
 public interface TaskManager {
@@ -42,4 +44,8 @@ public interface TaskManager {
     void removeAllSubtasks();
 
     List<Task> getHistory();
+
+    Object getEpics();
+
+    void removeTaskById(int id);
 }

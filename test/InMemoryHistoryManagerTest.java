@@ -1,3 +1,5 @@
+import ru.yandex.javacourse.schedule.manager.InMemoryHistoryManager;
+import ru.yandex.javacourse.schedule.manager.Task;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -42,9 +44,8 @@ public class InMemoryHistoryManagerTest {
         historyManager.add(task);
 
         List<Task> history = historyManager.getHistory();
-        history.clear(); // Попытка изменить возвращенную историю
+        history.clear();
 
-        // Проверяем, что оригинальная история не была изменена
         history = historyManager.getHistory();
         assertEquals(1, history.size(), "Оригинальная история не должна изменяться");
         assertEquals(task, history.get(0), "Задача должна быть первой в истории");

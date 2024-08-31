@@ -1,3 +1,5 @@
+package ru.yandex.javacourse.schedule.manager;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -5,7 +7,7 @@ import java.util.Objects;
 public class Subtask extends Task {
     private int epicId;
 
-    public Subtask(int id, String name, String description, Status status, int epicId, Duration duration, LocalDateTime startTime) {
+    public Subtask(int id, String name, String description, Task.Status status, int epicId, Duration duration, LocalDateTime startTime) {
         super(id, name, description, status, duration, startTime);
         if (id == epicId) {
             throw new IllegalStateException("Подзадача не может быть добавлена в качестве своего собственного эпика.");
@@ -13,7 +15,7 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    public Subtask(int id, String name, String description, Status status, int epicId) {
+    public Subtask(int id, String name, String description, Task.Status status, int epicId) {
         this(id, name, description, status, epicId, null, null);
     }
 
@@ -30,7 +32,7 @@ public class Subtask extends Task {
         int id = Integer.parseInt(parts[0]);
         String name = parts[1];
         String description = parts[2];
-        Status status = Status.valueOf(parts[3]);
+        Task.Status status = Task.Status.valueOf(parts[3]);
         int epicId = Integer.parseInt(parts[4]);
         Duration duration = Duration.ofMinutes(Long.parseLong(parts[5]));
         LocalDateTime startTime = LocalDateTime.parse(parts[6]);

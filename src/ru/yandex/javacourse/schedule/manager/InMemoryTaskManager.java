@@ -1,3 +1,5 @@
+package ru.yandex.javacourse.schedule.manager;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -7,6 +9,7 @@ public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private int currentId = 1;
+
 
     private final NavigableSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())));
 
@@ -208,6 +211,22 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public Object getEpics() {
+        return null;
+    }
+
+    @Override
+    public void removeTaskById(int id) {
+        if (tasks.containsKey(id)) {
+            deleteTask(id);
+        } else if (subtasks.containsKey(id)) {
+            removeSubtask(id);
+        } else if (epics.containsKey(id)) {
+            removeEpic(id);
+        }
     }
 
     private int generateId() {

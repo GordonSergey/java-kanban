@@ -1,3 +1,4 @@
+import ru.yandex.javacourse.schedule.manager.Task;
 import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -7,9 +8,9 @@ public class TaskTest {
 
     @Test
     public void testTaskConstructorWithAllFields() {
-        Task task = new Task(1, "Test Task", "Description", Task.Status.NEW, Duration.ofHours(1), LocalDateTime.of(2024, 8, 1, 10, 0));
+        Task task = new Task(1, "Test ru.yandex.javacourse.schedule.manager.Task", "Description", Task.Status.NEW, Duration.ofHours(1), LocalDateTime.of(2024, 8, 1, 10, 0));
         assertEquals(1, task.getId());
-        assertEquals("Test Task", task.getName());
+        assertEquals("Test ru.yandex.javacourse.schedule.manager.Task", task.getName());
         assertEquals("Description", task.getDescription());
         assertEquals(Task.Status.NEW, task.getStatus());
         assertEquals(Duration.ofHours(1), task.getDuration());
@@ -18,9 +19,9 @@ public class TaskTest {
 
     @Test
     public void testTaskConstructorWithoutDurationAndStartTime() {
-        Task task = new Task(2, "Another Task", "Another Description", Task.Status.IN_PROGRESS);
+        Task task = new Task(2, "Another ru.yandex.javacourse.schedule.manager.Task", "Another Description", Task.Status.IN_PROGRESS);
         assertEquals(2, task.getId());
-        assertEquals("Another Task", task.getName());
+        assertEquals("Another ru.yandex.javacourse.schedule.manager.Task", task.getName());
         assertEquals("Another Description", task.getDescription());
         assertEquals(Task.Status.IN_PROGRESS, task.getStatus());
         assertNull(task.getDuration());
@@ -29,20 +30,20 @@ public class TaskTest {
 
     @Test
     public void testGetEndTime() {
-        Task task = new Task(3, "Task with End Time", "Description", Task.Status.DONE, Duration.ofHours(2), LocalDateTime.of(2024, 8, 1, 10, 0));
+        Task task = new Task(3, "ru.yandex.javacourse.schedule.manager.Task with End Time", "Description", Task.Status.DONE, Duration.ofHours(2), LocalDateTime.of(2024, 8, 1, 10, 0));
         assertEquals(LocalDateTime.of(2024, 8, 1, 12, 0), task.getEndTime());
     }
 
     @Test
     public void testGetEndTimeWhenDurationOrStartTimeIsNull() {
-        Task task = new Task(4, "Task without End Time", "Description", Task.Status.NEW);
+        Task task = new Task(4, "ru.yandex.javacourse.schedule.manager.Task without End Time", "Description", Task.Status.NEW);
         assertNull(task.getEndTime());
     }
 
     @Test
     public void testToString() {
         Task task = new Task(5, "ToString Test", "Description", Task.Status.NEW, Duration.ofMinutes(90), LocalDateTime.of(2024, 8, 1, 10, 0));
-        // Ожидаемый результат строки должен совпадать с фактическим результатом
+
         assertEquals("5,ToString Test,Description,NEW,90,2024-08-01T10:00", task.toString());
     }
     @Test
@@ -71,9 +72,9 @@ public class TaskTest {
 
     @Test
     public void testFromStringWithNullValues() {
-        Task task = Task.fromString("9,Task with Nulls,Description,IN_PROGRESS,null,null");
+        Task task = Task.fromString("9,ru.yandex.javacourse.schedule.manager.Task with Nulls,Description,IN_PROGRESS,null,null");
         assertEquals(9, task.getId());
-        assertEquals("Task with Nulls", task.getName());
+        assertEquals("ru.yandex.javacourse.schedule.manager.Task with Nulls", task.getName());
         assertEquals("Description", task.getDescription());
         assertEquals(Task.Status.IN_PROGRESS, task.getStatus());
         assertNull(task.getDuration());
@@ -83,6 +84,6 @@ public class TaskTest {
     @Test
     public void testFromStringWithInvalidFormat() {
         assertThrows(IllegalArgumentException.class, () -> Task.fromString("Invalid format"));
-        assertThrows(IllegalArgumentException.class, () -> Task.fromString("10,Task,Description,NEW,30"));
+        assertThrows(IllegalArgumentException.class, () -> Task.fromString("10,ru.yandex.javacourse.schedule.manager.Task,Description,NEW,30"));
     }
 }

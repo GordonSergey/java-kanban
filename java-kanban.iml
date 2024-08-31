@@ -66,5 +66,13 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="junit-jupiter-5.8.1" level="project" />
+    <orderEntry type="library" name="junit-jupiter-api-5.8.1" level="project" />
+    <orderEntry type="library" name="junit-jupiter-engine-5.8.1" level="project" />
+    <orderEntry type="library" name="junit-jupiter-params-5.8.1" level="project" />
+    <orderEntry type="library" name="junit-platform-commons-1.8.1" level="project" />
+    <orderEntry type="library" name="junit-platform-engine-1.8.1" level="project" />
+    <orderEntry type="library" name="opentest4j-1.2.0" level="project" />
+    <orderEntry type="library" name="gson-2.9.0" level="project" />
   </component>
 </module>
